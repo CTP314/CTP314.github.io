@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ctp314.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这就是BZOJ挨个做题的下场吗 群的定义 对于二元组 \((G,\ \circ )\) 其中 \(G\) 是一个集合，$$ 是一个二元运算，若满足以下性质，则称 \(G\) 是 $$ 下的群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再也学不会的置换与群">
+<meta property="og:url" content="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/index.html">
+<meta property="og:site_name" content="CTime_Pup_314">
+<meta property="og:description" content="这就是BZOJ挨个做题的下场吗 群的定义 对于二元组 \((G,\ \circ )\) 其中 \(G\) 是一个集合，$$ 是一个二元运算，若满足以下性质，则称 \(G\) 是 $$ 下的群">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/Burnside_1.jpg">
+<meta property="og:image" content="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/Polya_1.png">
+<meta property="article:published_time" content="2019-03-03T07:33:22.000Z">
+<meta property="article:modified_time" content="2020-10-13T11:00:24.329Z">
+<meta property="article:author" content="CTime_Pup_314">
+<meta property="article:tag" content="群论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/Burnside_1.jpg">
+
+<link rel="canonical" href="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>再也学不会的置换与群 | CTime_Pup_314</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CTime_Pup_314</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不能再颓废了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ctp314.github.io/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.ico">
+      <meta itemprop="name" content="CTime_Pup_314">
+      <meta itemprop="description" content="自闭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CTime_Pup_314">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          再也学不会的置换与群
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-03 15:33:22" itemprop="dateCreated datePublished" datetime="2019-03-03T15:33:22+08:00">2019-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-13 19:00:24" itemprop="dateModified" datetime="2020-10-13T19:00:24+08:00">2020-10-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%A8%A1%E6%9D%BF/" itemprop="url" rel="index"><span itemprop="name">模板</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/" class="post-meta-item leancloud_visitors" data-flag-title="再也学不会的置换与群" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><del>这就是BZOJ挨个做题的下场吗</del></p>
+<h2 id="群的定义">群的定义</h2>
+<p>对于二元组 <span class="math inline">\((G,\ \circ )\)</span> 其中
+<span class="math inline">\(G\)</span> 是一个集合，$$
+是一个二元运算，若满足以下性质，则称 <span class="math inline">\(G\)</span> 是 $$ 下的群 <a id="more"></a> * 封闭性:
+<span class="math inline">\(\forall \ a,\ b \in G, \ a\circ b \in
+G\)</span> * 交换律: <span class="math inline">\(\forall \ a,\ b,\ c \in
+G,\ a\circ b\circ c\ =\ a\circ (b\circ c)\)</span> * 单位元: <span class="math inline">\(\exists \ e\ \in G,\ \forall\ a\ \in G,\ a\circ e\
+=\ a\)</span> * 逆元: <span class="math inline">\(\forall \ a\ \in G,\
+\exists\ a^{-1}\ \in\ G,\ a\circ a^{-1} = e\)</span></p>
+<p>比如，复数集合 <span class="math inline">\(C\)</span> 是二元运算
+<span class="math inline">\(+\)</span> 的群，即加法群</p>
+<h2 id="置换群">置换群</h2>
+<p>定义 <span class="math inline">\(G\)</span> 为 <span class="math inline">\(S = \{ 1,\ 2,\ 3,\ 4,\ ...\ ,\ n \}\)</span>
+上双射构成的集合，并定义二元运算 <span class="math inline">\(\circ\)</span> 满足 <span class="math inline">\((f\ \circ\ g)[x] = f(g(x))\)</span>，若保证运算
+<span class="math inline">\(\circ\)</span> 对于 <span class="math inline">\(S\)</span> 封闭，则称 <span class="math inline">\(G\)</span> 是运算 <span class="math inline">\(\circ\)</span>
+的置换群，且这种双射称为置换，通常以这种形式表示 <span class="math display">\[\begin{bmatrix}
+1&amp;2&amp;3&amp;{\cdots}&amp;n\\\\
+{a_1}&amp;{a_2}&amp;{a_3}&amp;{\cdots}&amp;{a_n}\\
+\end{bmatrix}\]</span></p>
+<p>其中置换</p>
+<p><span class="math display">\[\begin{bmatrix}
+1&amp;2&amp;3&amp;{\cdots}&amp;n\\\\
+{1}&amp;{2}&amp;{3}&amp;{\cdots}&amp;{n}\\
+\end{bmatrix}\]</span></p>
+<p>为 <span class="math inline">\(G\)</span> 的单位元</p>
+<p>其中</p>
+<p><span class="math display">\[\begin{bmatrix}
+{a_1}&amp;{a_2}&amp;{a_3}&amp;{\cdots}&amp;{a_n}\\\\
+1&amp;2&amp;3&amp;{\cdots}&amp;n\\
+\end{bmatrix}\]</span></p>
+<p>为 <span class="math inline">\(G\)</span> 的逆元</p>
+<p>同时，我们定义：</p>
+<p><span class="math inline">\(E_i\)</span> 表示元素 <span class="math inline">\(i\)</span> 经过 <span class="math inline">\(G\)</span>
+的诱导下可以得到的元素集合，即等价类</p>
+<p><del>就是置换形成的有向图的环·</del></p>
+<p><span class="math inline">\(Z_i\)</span> 表示使元素 <span class="math inline">\(i\)</span> 为不动点的置换的全体所构成的集合</p>
+<h2 id="burnside-引理">Burnside 引理</h2>
+<p>设 <span class="math inline">\(G\)</span> 是作用在 <span class="math inline">\(S = \{1,\ 2,\ 3,\ \cdots,\ n\}\)</span>
+的置换群，则对于等价类 <span class="math inline">\(E\)</span> 的个数
+<span class="math inline">\(l\)</span> 有</p>
+<p><span class="math display">\[l\ =\ \frac{1}{|G|}\sum_{g\ \in\
+G}D(g)\]</span></p>
+<p>其中 <span class="math inline">\(D(x)\)</span> 表示置换 <span class="math inline">\(x\)</span> 中的不动点的数量</p>
+<h2 id="证明">### 证明</h2>
+<p><strong>引理</strong></p>
+<p><span class="math display">\[\sum_{i=1}^n|Z_i| = \sum_{g\ \in\
+G}D(g)\]</span></p>
+<details>
+<summary>
+<mark><font color="darkred"></font></mark>
+</summary>
+<p><del>自己口胡一遍就行了</del></p>
+<p><span class="math inline">\(\sum_{i=1}^n|Z_i|\ =\
+\sum_{i=1}^n\sum_{g\ \in \ G}[i == a_i][a_i\ \in g]\ =\ \sum_{g\ \in \
+G}\sum_{i=1}^n[i == a_i][a_i\ \in g]\ =\ \sum_{g\ \in \
+G}D(g)\)</span></p>
+</details>
+<hr>
+<p><strong>引理</strong></p>
+<p><span class="math display">\[\forall\ k\ \in\ S,\ |E_k||Z_k|\ =\
+|G|\]</span></p>
+<details>
+<summary>
+<mark><font color="darkred"></font></mark>
+</summary>
+<p>设 <span class="math inline">\(E_k\ =\ \{a_1,\ a_2,\ a_3,\ \cdots,\
+a_{|E_k|} \},\ a_1\ =\ k\)</span></p>
+<p>由 <span class="math inline">\(E_k\)</span> 的定义知，<span class="math inline">\(\exists\ p_i\ \in\ G,\ p_i(a_1)\ =\
+a_i\)</span></p>
+<p>于是构造 <span class="math inline">\(Z_kp_i\ =\ \{\pi\circ p_i\ |\
+\pi \in\ Z_k\}\)</span></p>
+<p>对于 <span class="math inline">\(Z_kp_i\)</span> 具有以下性质</p>
+<p><span class="math display">\[|Z_kp_i|\ =\ |Z_k|\]</span></p>
+<p><span class="math inline">\(\because \pi_1\circ p_i\ =\ \pi_2\circ
+p_i \rightarrow\ \pi_1\ =\ \pi_2\ \therefore\ \pi_1\ \ne\ \pi_2\
+\rightarrow \pi_1\circ p_i\ \ne\ \pi_2\circ p_i\)</span></p>
+<p><del>结合下一条性质感性理解</del></p>
+<p><span class="math display">\[Z_kp_i\ \cap\ Z_kp_j = \varnothing\ (i\
+\ne\ j)\]</span></p>
+<p><span class="math inline">\(\because\ Z_kp_i(a_1)\ =\ a_i,\
+Z_kp_j(a_1)\ =\ a_j\ \therefore\ p_i(a_1)\ \ne\ p_j(a_1)\)</span></p>
+<p><span class="math display">\[G\ =\ Z_kp_1\ \cup\ Z_kp_2\ \cup\
+Z_kp_3\ \cup\ \cdots\ \cup\ Z_kp_{|E_k|}\]</span> 首先，显然</p>
+<p><span class="math inline">\(Z_kp_1\ \cup\ Z_kp_2\ \cup\ Z_kp_3\ \cup\
+\cdots\ \cup\ Z_kp_{|E_k|}\ \subseteq G\)</span></p>
+<p><span class="math inline">\(\forall\ p\ \in\ G,\ p(a_1) = a =
+k\rightarrow a\ \in \ E_k\)</span>，设 <span class="math inline">\(a =
+a_j\)</span></p>
+<p><span class="math inline">\(\because\ p\circ p_j^{-1}(a_1)\ =\
+p_j^{-1}\circ p(a_1)\ =\ a_1\)</span></p>
+<p><span class="math inline">\(\therefore\ p\circ p_j^{-1}\ \in\ Z_k,\
+p\ \in\ Z_kp_j\)</span></p>
+<p><span class="math inline">\(\ \ \ \ G\ \subseteq\ Z_kp_1\ \cup\
+Z_kp_2\ \cup\ Z_kp_3\ \cup\ \cdots\ \cup\ Z_kp_{|E_k|}\)</span></p>
+<p><span class="math inline">\(\therefore\ G\ =\ Z_kp_1\ \cup\ Z_kp_2\
+\cup\ Z_kp_3\ \cup\ \cdots\ \cup\ Z_kp_{|E_k|}\)</span></p>
+<p>综合各项性质</p>
+<p><span class="math inline">\(|G|\ = \sum_{i=1}^{|E_k|}|Z_kp_i|\ =
+\sum_{i=1}^{E_k}|Z_k|\ = |E_k||Z_k|\)</span></p>
+</details>
+<hr>
+<p><strong>综上</strong></p>
+<p><span class="math inline">\(\frac{1}{|G|}\sum_{g\ \in\ G}D(g)\ =
+\frac{1}{|G|}\sum_{i=1}^{n}|Z_i| \ = \frac{1}{|G|}\sum_{i=1}^l\sum_{j\
+\in\ E_i}|Z_j| \ = \frac{1}{|G|}\sum_{i=1}^l|G|\ = l\)</span></p>
+<h3 id="例题">例题</h3>
+<blockquote>
+<p>一正方形分成4格，2着色，求方案，其中，经过转动相同的图象算同一方案</p>
+</blockquote>
+<figure>
+<img src="/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/Burnside_1.jpg" alt="题目图片">
+<figcaption aria-hidden="true">题目图片</figcaption>
+</figure>
+<p>设 <span class="math inline">\(G\ =\ \{a_1,\ a_2,\ a_3,\
+a_4\}\)</span> 分别代表顺时针 <span class="math inline">\(0^{\circ}\)</span> ，<span class="math inline">\(90^{\circ}\)</span> ，<span class="math inline">\(180^{\circ}\)</span> ，<span class="math inline">\(270^{\circ}\)</span></p>
+<p>由题意得</p>
+<p><span class="math display">\[a_1\ = \begin{bmatrix}
+1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;10&amp;11&amp;12&amp;13&amp;14&amp;15&amp;16\\\\
+1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;10&amp;11&amp;12&amp;13&amp;14&amp;15&amp;16\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[a_2\ = \begin{bmatrix}
+1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;10&amp;11&amp;12&amp;13&amp;14&amp;15&amp;16\\\\
+1&amp;2&amp;6&amp;3&amp;4&amp;5&amp;10&amp;7&amp;8&amp;9&amp;12&amp;11&amp;16&amp;13&amp;14&amp;15\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[a_3\ = \begin{bmatrix}
+1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;10&amp;11&amp;12&amp;13&amp;14&amp;15&amp;16\\\\
+1&amp;2&amp;5&amp;6&amp;3&amp;4&amp;9&amp;10&amp;7&amp;8&amp;11&amp;12&amp;15&amp;16&amp;13&amp;14\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[a_4\ = \begin{bmatrix}
+1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;10&amp;11&amp;12&amp;13&amp;14&amp;15&amp;16\\\\
+1&amp;2&amp;4&amp;5&amp;6&amp;3&amp;8&amp;9&amp;10&amp;7&amp;12&amp;11&amp;14&amp;15&amp;16&amp;13\\
+\end{bmatrix}\]</span></p>
+<p>由Burnside引理得</p>
+<p><span class="math display">\[l\ =\ \frac{1}{4}\times (16+2+4+2)\ =\
+6\]</span></p>
+<h2 id="polya-定理">Polya 定理</h2>
+<p>我们考虑染色问题，<span class="math inline">\(S\)</span>
+大小是指数级的，无法枚举，所以产生了Polya定理</p>
+<p>引入循环的概念</p>
+<p>约定一个记号</p>
+<p><span class="math display">\[(a_1\ a_2\ a_3\ \cdots\ a_n)\ =\
+\begin{bmatrix}
+{a_1}&amp;{a_2}&amp;{a_3}&amp;{\cdots}&amp;{a_n}\\\\
+{a_2}&amp;{a_3}&amp;{a_4}&amp;{\cdots}&amp;{a_1}\\
+\end{bmatrix}\]</span></p>
+<p>循环可以理解为压缩表示的置换，对于循环内的数没有先后之分</p>
+<p>一个十分显然的结论，一个置换可以表示成若干个不相交循环的组合</p>
+<p>例如</p>
+<p><span class="math display">\[(a_1\ a_2\ a_3)(a_4\ a_5)\ =\
+\begin{bmatrix}
+{a_1}&amp;{a_2}&amp;{a_3}&amp;{a_4}&amp;{a_5}\\\\
+{a_2}&amp;{a_3}&amp;{a_1}&amp;{a_5}&amp;{a_4}\\
+\end{bmatrix}\]</span></p>
+<p>设 <span class="math inline">\(G\)</span> 是作用在 <span class="math inline">\(S = \{1,\ 2,\ 3,\ \cdots,\ n\}\)</span>
+的置换群，我们需要对 <span class="math inline">\(n\)</span> 染 <span class="math inline">\(m\)</span> 种颜色，则对于等价类 <span class="math inline">\(E\)</span> 的个数 <span class="math inline">\(l\)</span> 有</p>
+<p><span class="math display">\[l\ =\ \frac{1}{|G|}\sum_{g\ \in\
+G}m^{C(g)}\]</span></p>
+<p>其中 <span class="math inline">\(C(x)\)</span> 表示置换 <span class="math inline">\(x\)</span> 中的不相交循环的数量</p>
+<h3 id="证明-1">证明</h3>
+<p>对于每个循环都对应的是该置换的不动点，我们只要把循环内的数染成相同颜色即可，即
+<span class="math inline">\(m^{C(g)}\)</span> 个</p>
+<h3 id="人类本质"><del>人类本质</del></h3>
+<blockquote>
+<p>一正方形分成4格，2着色，求方案，其中，经过转动相同的图象算同一方案</p>
+</blockquote>
+<figure>
+<img src="/2019/03/03/%E5%86%8D%E4%B9%9F%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E7%BD%AE%E6%8D%A2%E4%B8%8E%E7%BE%A4/Polya_1.png" alt="题目图片">
+<figcaption aria-hidden="true">题目图片</figcaption>
+</figure>
+<p>设 <span class="math inline">\(G\ =\ \{a_1,\ a_2,\ a_3,\
+a_4\}\)</span> 分别代表顺时针 <span class="math inline">\(0^{\circ}\)</span> ，<span class="math inline">\(90^{\circ}\)</span> ，<span class="math inline">\(180^{\circ}\)</span> ，<span class="math inline">\(270^{\circ}\)</span></p>
+<p>由题意得</p>
+<p><span class="math display">\[a_1\ =\ (1)(2)(3)(4)\]</span></p>
+<p><span class="math display">\[a_2\ =\ (1\ \ \ 2\ \ \ 3\ \ \
+4)\]</span></p>
+<p><span class="math display">\[a_3\ =\ (1\ \ \ 3)(2\ \ \
+4)\]</span></p>
+<p><span class="math display">\[a_4\ =\ (1\ \ \ 2\ \ \ 3\ \ \
+4)\]</span></p>
+<p>由Polya定理得</p>
+<p><span class="math display">\[l\ =\ \frac{1}{4}\times
+(2^4+2^1+2^2+2^1)\ =\ 6\]</span></p>
+<h2 id="p4980-模板polya定理"><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P4980">P4980
+【模板】Polya定理</a></h2>
+<p><del>群论真是人类的智慧</del></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BE%A4%E8%AE%BA/" rel="tag"># 群论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/02/21/%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84%E5%8D%81%E4%B8%89%E9%A2%98/" rel="prev" title="后缀数组十三题">
+      <i class="fa fa-chevron-left"></i> 后缀数组十三题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/04/40309102-%E7%9C%81%E9%80%89%E6%A8%A1%E6%8B%9F%E9%A2%98/" rel="next" title="40309102 省选模拟题">
+      40309102 省选模拟题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">群的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%AE%E6%8D%A2%E7%BE%A4"><span class="nav-number">2.</span> <span class="nav-text">置换群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#burnside-%E5%BC%95%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Burnside 引理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%81%E6%98%8E"><span class="nav-number">4.</span> <span class="nav-text">### 证明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">例题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#polya-%E5%AE%9A%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">Polya 定理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E6%98%8E-1"><span class="nav-number">5.1.</span> <span class="nav-text">证明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E6%9C%AC%E8%B4%A8"><span class="nav-number">5.2.</span> <span class="nav-text">人类本质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p4980-%E6%A8%A1%E6%9D%BFpolya%E5%AE%9A%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">P4980
+【模板】Polya定理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CTime_Pup_314"
+      src="/images/avatar.ico">
+  <p class="site-author-name" itemprop="name">CTime_Pup_314</p>
+  <div class="site-description" itemprop="description">自闭</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://noone40404.github.io/" title="https:&#x2F;&#x2F;noone40404.github.io&#x2F;" rel="noopener" target="_blank">noone</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cnblogs.com/wmq12138" title="https:&#x2F;&#x2F;cnblogs.com&#x2F;wmq12138" rel="noopener" target="_blank">Robin12138</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wa-automaton.github.io/" title="https:&#x2F;&#x2F;wa-automaton.github.io&#x2F;" rel="noopener" target="_blank">_WA自动机</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.franky.pro/" title="http:&#x2F;&#x2F;www.franky.pro&#x2F;" rel="noopener" target="_blank">franky</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.org/blog/60150/" title="https:&#x2F;&#x2F;www.luogu.org&#x2F;blog&#x2F;60150&#x2F;" rel="noopener" target="_blank">Betelgeuse_</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://williampetermatthew.github.io/" title="https:&#x2F;&#x2F;williampetermatthew.github.io&#x2F;" rel="noopener" target="_blank">Peter_Matthew</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://micardi.coding.me/" title="https:&#x2F;&#x2F;micardi.coding.me" rel="noopener" target="_blank">Micardi</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://syr_steven.coding.me/" title="https:&#x2F;&#x2F;syr_steven.coding.me" rel="noopener" target="_blank">Steven7</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cs18.coding.me/" title="https:&#x2F;&#x2F;cs18.coding.me&#x2F;" rel="noopener" target="_blank">cs18</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/Bei-S/note/1381469" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;Bei-S&#x2F;note&#x2F;1381469" rel="noopener" target="_blank">Yue-S</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://pb0207.github.io/" title="https:&#x2F;&#x2F;pb0207.github.io&#x2F;" rel="noopener" target="_blank">pb0207</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/KirinBill/note/878927" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;KirinBill&#x2F;note&#x2F;878927" rel="noopener" target="_blank">KirinBill</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://fancypei.github.io/" title="https:&#x2F;&#x2F;fancypei.github.io&#x2F;" rel="noopener" target="_blank">Fancy</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CTime_Pup_314</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz","app_key":"VgY23VexkwMqCBv9Bf0v6Lvz","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz',
+      appKey     : 'VgY23VexkwMqCBv9Bf0v6Lvz',
+      placeholder: "有什么问题，欢迎留言指正与交流...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

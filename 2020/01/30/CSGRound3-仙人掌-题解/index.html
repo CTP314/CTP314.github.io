@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ctp314.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这道题考完之后一直也没题解，蒟蒻就自己找了些资料，一知半解地写了这道题，主要参考 NERC2019 C.Cactus Revenge 和 Cactus graph realization of degree sequence，接下来的事情也主要复读这两个资料的 我们在之后的讨论中设度数序列为 \(d\)，图的点集大小为 \(n\)，边集大小为 \(m\)，首先有个很明显的性质即">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[[CSGRound3]仙人掌]题解">
+<meta property="og:url" content="https://ctp314.github.io/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/index.html">
+<meta property="og:site_name" content="CTime_Pup_314">
+<meta property="og:description" content="这道题考完之后一直也没题解，蒟蒻就自己找了些资料，一知半解地写了这道题，主要参考 NERC2019 C.Cactus Revenge 和 Cactus graph realization of degree sequence，接下来的事情也主要复读这两个资料的 我们在之后的讨论中设度数序列为 \(d\)，图的点集大小为 \(n\)，边集大小为 \(m\)，首先有个很明显的性质即">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-30T05:43:36.000Z">
+<meta property="article:modified_time" content="2020-10-13T11:07:11.130Z">
+<meta property="article:author" content="CTime_Pup_314">
+<meta property="article:tag" content="组合计数">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ctp314.github.io/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>[[CSGRound3]仙人掌]题解 | CTime_Pup_314</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CTime_Pup_314</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不能再颓废了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ctp314.github.io/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.ico">
+      <meta itemprop="name" content="CTime_Pup_314">
+      <meta itemprop="description" content="自闭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CTime_Pup_314">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [[CSGRound3]仙人掌]题解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-30 13:43:36" itemprop="dateCreated datePublished" datetime="2020-01-30T13:43:36+08:00">2020-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-13 19:07:11" itemprop="dateModified" datetime="2020-10-13T19:07:11+08:00">2020-10-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="[[CSGRound3]仙人掌]题解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/30/CSGRound3-%E4%BB%99%E4%BA%BA%E6%8E%8C-%E9%A2%98%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这道题考完之后一直也没题解，蒟蒻就自己找了些资料，一知半解地写了这道题，主要参考
+<a target="_blank" rel="noopener" href="https://neerc.ifmo.ru/archive/2019/nerc-2019-tutorial.pdf">NERC2019
+C.Cactus Revenge</a> 和 <a target="_blank" rel="noopener" href="http://www.secmem.org/blog/2019/12/15/cactus-realization/">Cactus
+graph realization of degree
+sequence</a>，接下来的事情也主要复读这两个资料的</p>
+<p>我们在之后的讨论中设度数序列为 <span class="math inline">\(d\)</span>，图的点集大小为 <span class="math inline">\(n\)</span>，边集大小为 <span class="math inline">\(m\)</span>，首先有个很明显的性质即 <a id="more"></a>
+<span class="math display">\[
+\sum_{i=1}^nd_i=2m
+\]</span></p>
+<p>首先考虑树的情况，树的情况很好猜，一个度数序能构成树的充要条件即</p>
+<p><span class="math display">\[
+\sum_{i=1}^nd_i=2(n-1)\land \forall i,d_i\ge1
+\]</span></p>
+<p>考虑归纳证明，首先 <span class="math inline">\(n=2\)</span> 是 <span class="math inline">\(d_1=d_2=1\)</span>
+两者互相连边即可，结论显然成立</p>
+<p>对于 <span class="math inline">\(n&gt;2\)</span>，若 <span class="math inline">\(\forall i,d_i\ge2\)</span>，则 <span class="math inline">\(\sum_{i=1}^nd_i\ge2n\)</span> 所以一定有 j，满足
+<span class="math inline">\(d_j=1\)</span>，我们将 <span class="math inline">\(j\)</span> 与剩下任意一个 <span class="math inline">\(k,d_k\ge2\)</span> 连边，将 <span class="math inline">\(d_j\)</span> 和 <span class="math inline">\(d_k\)</span> 减 <span class="math inline">\(1\)</span>，将 <span class="math inline">\(j\)</span> 删去，得到新的度数序 <span class="math inline">\(d&#39;\)</span>，那么由于 <span class="math inline">\(d&#39;\)</span> 是可以构成树的，所以 <span class="math inline">\(d\)</span> 也可以</p>
+<p>接着我们考虑边仙人掌的情况</p>
+<p>我们任取图的一个生成树，每条非树边都仅代表一个环，所以环数 <span class="math inline">\(c\)</span> 显然满足 <span class="math display">\[
+    c=m-(n-1)\in[0,\lfloor\frac{n-1}{2}\rfloor]
+\]</span></p>
+<p>若度数都为偶数，分两种情况，都为 <span class="math inline">\(2\)</span>
+时，我们只需要构成一个大环即可，否则我们其中一定存在相异的 <span class="math inline">\(u\)</span> 和 <span class="math inline">\(v\)</span> 满足 <span class="math inline">\(d_u=d_v=2\)</span>（可以用树的反证法说明)，我们令
+<span class="math inline">\(u\)</span> 和 <span class="math inline">\(v\)</span> 与另一个 <span class="math inline">\(w,d_w\ge4\)</span> 构成一个三元环，与树同理构造出
+<span class="math inline">\(d&#39;\)</span>，这是 <span class="math inline">\(d&#39;\)</span> 满足 <span class="math inline">\(c-1\le\lfloor\frac{n-3}{2}\rfloor\)</span>，于是可以归纳证明</p>
+<p>若度数不全为偶数，则显然奇数个数为偶数并且我们需要找到更强的约束条件，考虑割边的个数为
+<span class="math inline">\(b\)</span>，奇数个数为 <span class="math inline">\(o\)</span>，叶子个数为 <span class="math inline">\(l\)</span>，对于 <span class="math inline">\(b\)</span>，满足 <span class="math inline">\(b\ge\max(\frac{o}{2},l)\)</span>，所以对 <span class="math inline">\(c\)</span> 有更强的约束为</p>
+<p><span class="math display">\[
+c\le\lfloor\frac{n-1-\max(\frac{o}{2},l)}{2}\rfloor\le\lfloor\frac{n-1-b}{2}\rfloor
+\]</span></p>
+<p>首先对于一些平凡的情况，若序列满足上述条件即可构造出仙人掌，对于剩下的分两种情况考虑当
+<span class="math inline">\(l\ge1\)</span> 时我们从度数最大的点 <span class="math inline">\(u\)</span> 向叶子 <span class="math inline">\(v\)</span> 连边，构造出 <span class="math inline">\(d&#39;\)</span> 这时 <span class="math inline">\(d&#39;\)</span> 满足 <span class="math inline">\(c\le\lfloor\frac{n-1-\max(\frac{o-1-k}{2},l-1)}{2}\rfloor,k\le1\)</span>
+成立，我们从度数最大的点 <span class="math inline">\(u\)</span>
+向度数最小的 <span class="math inline">\(v\)</span> 和 <span class="math inline">\(w\)</span> 构成三元环，与上面同理可证成立</p>
+<p>所以我们就得到判断度数序列是否可以构成仙人掌的条件</p>
+<p>计数就很简单了，我们考虑枚举 <span class="math inline">\(o\)</span>
+和 <span class="math inline">\(l\)</span>，用组合数计算出不定方程 <span class="math display">\[
+\sum_{i=1}^nd_i=2m
+\]</span></p>
+<p>其中满足有 <span class="math inline">\(o-l\)</span> 个 <span class="math inline">\(d_i\)</span> 不小于 <span class="math inline">\(3\)</span> 且为奇数，<span class="math inline">\(l\)</span> 个 <span class="math inline">\(d_i\)</span> 为 <span class="math inline">\(1\)</span>，<span class="math inline">\(n-o\)</span> 个 <span class="math inline">\(d_i\)</span> 为不小于 <span class="math inline">\(2\)</span> 且为偶数的解的方案数</p>
+<p>这里我不太会用隔板法算，所以用生成函数暴力算很显然我们要求出的就是</p>
+<p><span class="math display">\[
+[x^{2m-l}]\binom{n}{o}\binom{o}{l}(\frac{1}{1-x^2}-1)^{n-o}(\frac{x}{1-x^2}-x)^{o-l}
+\]</span></p>
+<p>将后面的多项式展开就不多赘述了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> int64;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">int</span> f = <span class="number">1</span>, <span class="keyword">int</span> x = <span class="number">0</span>, <span class="keyword">char</span> ch = <span class="string">&#x27; &#x27;</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch = getchar())) <span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>) f = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch)) x = x*<span class="number">10</span>+ch-<span class="string">&#x27;0&#x27;</span>, ch = getchar();</span><br><span class="line">    <span class="keyword">return</span> f*x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">6e3</span>+<span class="number">5</span>, P = <span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">int</span> t, n, m, c; int64 C[N][N], ans;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, n = <span class="number">6e3</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        C[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; ++j)</span><br><span class="line">            C[i][j] = (C[i<span class="number">-1</span>][j<span class="number">-1</span>]+C[i<span class="number">-1</span>][j])%P;</span><br><span class="line">    &#125;</span><br><span class="line">    t = read();</span><br><span class="line">    <span class="keyword">while</span>(t--)</span><br><span class="line">    &#123;</span><br><span class="line">        n = read(), m = read(), c = m-(n<span class="number">-1</span>), ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> &lt;= c&amp;&amp;c &lt;= (n<span class="number">-1</span>)/<span class="number">2</span>) </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> o = <span class="number">0</span>; o &lt;= n; o += <span class="number">2</span>)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">0</span>; l &lt;= o; ++l)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">int</span> b = max(o/<span class="number">2</span>, l), i = (<span class="number">2</span>*m<span class="number">-2</span>*n-o+<span class="number">2</span>*l)/<span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">if</span>(c &lt;= (n<span class="number">-1</span>-b)/<span class="number">2</span>) ans = (ans+C[n][o]*C[o][l]%P*C[n-l+i<span class="number">-1</span>][i]%P)%P;</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这道题应该属于图的可视化问题，这类问题常用这样的归纳证明，欲了解更多可以参照<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Graph_realization_problem">Graph
+realization problem</a> 或这道题 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/CF1091E">CF1091E</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/" rel="tag"># 组合计数</a>
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/08/%E4%B8%80%E8%BE%88%E5%AD%90%E9%83%BD%E5%AD%A6%E4%B8%8D%E4%BC%9A%E7%9A%84%E5%9B%BE%E8%AE%BA%E6%8A%80%E5%B7%A7/" rel="prev" title="一辈子都学不会的图论技巧">
+      <i class="fa fa-chevron-left"></i> 一辈子都学不会的图论技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/31/CF1091E-New-Year-and-the-Acquaintance-Estimation%E9%A2%98%E8%A7%A3/" rel="next" title="[CF1091E]New Year and the Acquaintance Estimation题解">
+      [CF1091E]New Year and the Acquaintance Estimation题解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CTime_Pup_314"
+      src="/images/avatar.ico">
+  <p class="site-author-name" itemprop="name">CTime_Pup_314</p>
+  <div class="site-description" itemprop="description">自闭</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://noone40404.github.io/" title="https:&#x2F;&#x2F;noone40404.github.io&#x2F;" rel="noopener" target="_blank">noone</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cnblogs.com/wmq12138" title="https:&#x2F;&#x2F;cnblogs.com&#x2F;wmq12138" rel="noopener" target="_blank">Robin12138</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wa-automaton.github.io/" title="https:&#x2F;&#x2F;wa-automaton.github.io&#x2F;" rel="noopener" target="_blank">_WA自动机</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.franky.pro/" title="http:&#x2F;&#x2F;www.franky.pro&#x2F;" rel="noopener" target="_blank">franky</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.org/blog/60150/" title="https:&#x2F;&#x2F;www.luogu.org&#x2F;blog&#x2F;60150&#x2F;" rel="noopener" target="_blank">Betelgeuse_</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://williampetermatthew.github.io/" title="https:&#x2F;&#x2F;williampetermatthew.github.io&#x2F;" rel="noopener" target="_blank">Peter_Matthew</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://micardi.coding.me/" title="https:&#x2F;&#x2F;micardi.coding.me" rel="noopener" target="_blank">Micardi</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://syr_steven.coding.me/" title="https:&#x2F;&#x2F;syr_steven.coding.me" rel="noopener" target="_blank">Steven7</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cs18.coding.me/" title="https:&#x2F;&#x2F;cs18.coding.me&#x2F;" rel="noopener" target="_blank">cs18</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/Bei-S/note/1381469" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;Bei-S&#x2F;note&#x2F;1381469" rel="noopener" target="_blank">Yue-S</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://pb0207.github.io/" title="https:&#x2F;&#x2F;pb0207.github.io&#x2F;" rel="noopener" target="_blank">pb0207</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/KirinBill/note/878927" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;KirinBill&#x2F;note&#x2F;878927" rel="noopener" target="_blank">KirinBill</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://fancypei.github.io/" title="https:&#x2F;&#x2F;fancypei.github.io&#x2F;" rel="noopener" target="_blank">Fancy</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CTime_Pup_314</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz","app_key":"VgY23VexkwMqCBv9Bf0v6Lvz","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz',
+      appKey     : 'VgY23VexkwMqCBv9Bf0v6Lvz',
+      placeholder: "有什么问题，欢迎留言指正与交流...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

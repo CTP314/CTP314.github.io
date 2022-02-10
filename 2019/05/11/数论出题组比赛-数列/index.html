@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ctp314.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="题目描述 求二阶线性常系数齐次递推的平方和。 题解 由于这道题意要求，下文数列下标都从 1 开始 前置知识 线性常系数齐次递推关系 若递推关系满足 \[ f_n\ &#x3D;\ \sum_{i&#x3D;1}^kc_if_{n-i}\ (n &gt;k) \]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数论出题组比赛 数列">
+<meta property="og:url" content="https://ctp314.github.io/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/index.html">
+<meta property="og:site_name" content="CTime_Pup_314">
+<meta property="og:description" content="题目描述 求二阶线性常系数齐次递推的平方和。 题解 由于这道题意要求，下文数列下标都从 1 开始 前置知识 线性常系数齐次递推关系 若递推关系满足 \[ f_n\ &#x3D;\ \sum_{i&#x3D;1}^kc_if_{n-i}\ (n &gt;k) \]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-10T23:19:02.000Z">
+<meta property="article:modified_time" content="2020-10-13T10:57:47.352Z">
+<meta property="article:author" content="CTime_Pup_314">
+<meta property="article:tag" content="递推">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ctp314.github.io/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数论出题组比赛 数列 | CTime_Pup_314</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CTime_Pup_314</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不能再颓废了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ctp314.github.io/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.ico">
+      <meta itemprop="name" content="CTime_Pup_314">
+      <meta itemprop="description" content="自闭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CTime_Pup_314">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数论出题组比赛 数列
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-11 07:19:02" itemprop="dateCreated datePublished" datetime="2019-05-11T07:19:02+08:00">2019-05-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-13 18:57:47" itemprop="dateModified" datetime="2020-10-13T18:57:47+08:00">2020-10-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/" class="post-meta-item leancloud_visitors" data-flag-title="数论出题组比赛 数列" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/05/11/%E6%95%B0%E8%AE%BA%E5%87%BA%E9%A2%98%E7%BB%84%E6%AF%94%E8%B5%9B-%E6%95%B0%E5%88%97/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="题目描述">题目描述</h2>
+<p>求二阶线性常系数齐次递推的平方和。</p>
+<h2 id="题解">题解</h2>
+<p><em>由于这道题意要求，下文数列下标都从 1 开始</em></p>
+<h3 id="前置知识">前置知识</h3>
+<h4 id="线性常系数齐次递推关系">线性常系数齐次递推关系</h4>
+<p>若递推关系满足</p>
+<p><span class="math display">\[
+f_n\ =\ \sum_{i=1}^kc_if_{n-i}\ (n &gt;k)
+\]</span> <a id="more"></a> 且对于 <span class="math inline">\(f_1,\ c_1,\
+f_2,\ c_2\ ...\ f_k,\ c_k\)</span> 都为常数</p>
+<p>则称这种递推关系为<strong>线性常系数齐次递推关系</strong>，其中 <span class="math inline">\(k\)</span> 为阶数</p>
+<p>斐波那契数列就是常见的满足二阶线性常系数齐次递推关系的数列</p>
+<h4 id="特征方程">特征方程</h4>
+<p>求解线性常系数齐次递推方法的有很多，特征方程是常见的一种</p>
+<p>对于递推 <span class="math inline">\(f_n\ =\
+2f_{n-1}+3f_{n-2}\)</span> 来说</p>
+<p>我们构造等比数列 <span class="math inline">\(\langle\ 1,\ -1,\ 1\
+...\ \rangle\)</span> 满足这种关系，其中 <span class="math inline">\(g_n\ =\ (-1)^{n-1}\)</span></p>
+<p>又另一个构造等比数列 <span class="math inline">\(\langle\ 1,\ 3,\ 9\
+...\ \rangle\)</span> 满足这种关系，其中 <span class="math inline">\(h_n\ =\ 3^{n-1}\)</span></p>
+<p>仔细思考发现对于常数 <span class="math inline">\(\alpha\)</span> 和
+<span class="math inline">\(\beta\)</span> 而言 <span class="math inline">\(\lbrace \alpha g_n\rbrace\)</span> 和 <span class="math inline">\(\lbrace \beta h_n\rbrace\)</span> 都满足</p>
+<p>进一步思考后感觉对于 <span class="math inline">\(\lbrace \alpha g_n\
++\ \beta h_n\rbrace\)</span> 也都满足，其正确性十分明显无需多言</p>
+<p>也就是说我们可以通过一些等比数列作为基底，通过它们的线性组合，生成很多满足线性常系数齐次递推的数列</p>
+<p>如何找到这些等比数列呢？拿二阶来说</p>
+<p>我们不妨设等比数列 <span class="math inline">\(q_n\)</span> 的公比为
+<span class="math inline">\(x\)</span>，我们发现递推关系可以写成 <span class="math display">\[
+x^2q_n\ =\ axq_n+\ bq_n
+\]</span> 两边同时消去 <span class="math inline">\(q_n\)</span>，只剩下
+<span class="math display">\[
+x^2\ =\ ax\ + b
+\]</span></p>
+<p>这个方程叫做<strong>特征方程</strong>，通过这个我们就可以找到所有满足条件的等比数列</p>
+<p>现在用斐波那契数列举例，特征方程为</p>
+<p><span class="math display">\[
+x^2\ =\ x\ +\ 1
+\]</span></p>
+<p>解得 <span class="math inline">\(x_1\ =\
+\frac{1+\sqrt{5}}{2}\)</span>，<span class="math inline">\(x_2\ =\
+\frac{1-\sqrt{5}}{2}\)</span></p>
+<p>我们现在要解出 <span class="math inline">\(\alpha\)</span> 和 <span class="math inline">\(\beta\)</span>，则有 <span class="math inline">\(f_n=
+\alpha(x_1)^{n-1}+\beta(x_2)^{n-1}\)</span></p>
+<p>带入 <span class="math inline">\(f_1=1\)</span> 和 <span class="math inline">\(f_2=1\)</span> 得</p>
+<p><span class="math display">\[\begin{cases}
+\alpha+\beta=1\\\\
+\alpha x_1+\beta x_2=1\\
+\end{cases}
+\Rightarrow
+\begin{cases}
+\alpha=\frac{\sqrt{5}-1}{2\sqrt{5}}\\\\
+\beta=\frac{\sqrt{5}+1}{2\sqrt{5}}\\
+\end{cases}
+\]</span></p>
+<p>所以 <span class="math inline">\(f_n=\frac{1}{\sqrt{5}}[(\frac{1+\sqrt{5}}{2})^n-\frac{1-\sqrt{5}}{2})^n]\)</span></p>
+<h4 id="模意义下的根式运算">模意义下的根式运算</h4>
+<p>假如我们在计算过程中出现了根式，但保证根号下的数不变且结果一定不包含根式，要求在模<span class="math inline">\(P\)</span>意义下进行，保证计算过程中的任何数有逆元，如何解决呢？</p>
+<p>我们可以把根式写作类似复数的形式 <span class="math inline">\(a+\sqrt{k}b\)</span> 其中 <span class="math inline">\(k\)</span> 是所有数的根号下面的部分，如 <span class="math inline">\(a+\sqrt{2}\ b\)</span> 等</p>
+<p>我们把 <span class="math inline">\(a\)</span> 称作有理部，<span class="math inline">\(b\)</span> 称作无理部，<span class="math inline">\(\sqrt{k}\)</span> 称作基</p>
+<p>下面给出几项重要的运算，基不会被取模</p>
+<p>加法 <span class="math inline">\((a+\sqrt{k}b)+(c+\sqrt{k}d)\ \equiv\
+(a+b)+\sqrt{k}(c+d)\ (mod\ P)\)</span></p>
+<p>减法 <span class="math inline">\((a-\sqrt{k}b)+(c-\sqrt{k}d)\ \equiv\
+(a-b)+\sqrt{k}(c-d)\ (mod\ P)\)</span></p>
+<p>共轭 <span class="math inline">\(conj(a+\sqrt{k}b)\ \equiv\
+a+\sqrt{k}(-b)\ (mod\ P)\)</span></p>
+<p>乘法 <span class="math inline">\((a+\sqrt{k}b)(c+\sqrt{k}d)\ \equiv\
+(ac+bdk)+\sqrt{k}(ad+bc)\ (mod\ P)\)</span></p>
+<p>除法比较特殊，我们需要先将分母有理化，即同时将分子和分母同时乘上分母的共轭，这是分母就只剩下有理部了，这是再把分子部分除以分母有理部的逆元即可</p>
+<p>除法 <span class="math inline">\(\frac{a+\sqrt{k}b}{c+\sqrt{k}d}\
+\equiv\ \frac{(a+\sqrt{k}b)(c+\sqrt{k}d)}{c^2-kd^2} (mod\
+P)\)</span></p>
+<p>写出来就是</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> rat, irr; <span class="comment">// rat 有理部 irr 无理部 irr_base 基</span></span><br><span class="line">    Complex(<span class="keyword">int</span> rat = <span class="number">0</span>, <span class="keyword">int</span> irr = <span class="number">0</span>):rat(rat), irr(irr) &#123;&#125;;</span><br><span class="line">    <span class="function">Complex <span class="title">conj</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> Complex(rat, P-irr); &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> - (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span> &#123; <span class="keyword">return</span> Complex((rat-_.rat+P)%P, (irr-_.irr+P)%P); &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> + (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span> &#123; <span class="keyword">return</span> Complex((rat+_.rat)%P, (irr+_.irr)%P); &#125;   </span><br><span class="line">    Complex <span class="keyword">operator</span> * (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex ret; </span><br><span class="line">        ret.rat = (rat*_.rat%P+irr*_.irr%P*irr_base%P)%P;</span><br><span class="line">        ret.irr = (rat*_.irr%P+irr*_.rat%P)%P;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> / (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex a = Complex(rat, irr)*_.conj(); Complex b = _*_.conj();</span><br><span class="line">        a = a*Complex(qpow(b.rat, P<span class="number">-2</span>), <span class="number">0</span>); <span class="comment">// 求逆</span></span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="题目主体">题目主体</h3>
+<p>题干给出的是一个二阶线性常系数齐次递推数列，而让求出前 <span class="math inline">\(n\)</span> 项平方和</p>
+<p>有前置知识得出这个数列的通项的是几个等比数列的线性组合，那么最后也无非是几个等比数列求和罢了</p>
+<p>同时这道题保证了特征方程有两根和根式模运算的前提条件，所以下面做法极其暴力</p>
+<p>设数列为 <span class="math inline">\(\lbrace f_n\rbrace\)</span>
+其他变量名含义与前置知识中的相同</p>
+<p>则有 <span class="math display">\[
+\begin{cases}
+x_1\ =\ \frac{a+\sqrt{a^2+4b}}{2}\\\\
+x_2\ =\ \frac{a-\sqrt{a^2+4b}}{2}\\\\
+\alpha\ =\ \frac{x_1f_1-f_2}{x_1-x_2}\\\\
+\beta\ =\ \frac{f_2-x_2f_1}{x_1-x_2}
+\end{cases}
+\]</span></p>
+<p>而 <span class="math inline">\(f_n=
+\alpha(x_1)^{n-1}+\beta(x_2)^{n-1}\)</span> 那么 <span class="math inline">\(f_n^2=
+\alpha^2(x_1^2)^{n-1}+\beta^2(x_2^2)^{n-1}+2\alpha\beta(x_1x_2)^{n-1}\)</span></p>
+<p>每一部分都是等比数列，用公式 <span class="math inline">\(S_n\ =\
+\frac{x^n-1}{x-1}\)</span> 即可</p>
+<p>暴力代码如下，没有加任何常数优化居然跑得最快</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> int long long <span class="comment">// 虽然习惯不好，但是在这题比较方便</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> P = <span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">int</span> n, t, a, b, irr_base, f1, f2;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">qpow</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>( ; b; b &gt;&gt;= <span class="number">1</span>, a = a*a%P) <span class="keyword">if</span>(b&amp;<span class="number">1</span>) ret = ret*a%P;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> rat, irr;</span><br><span class="line">    Complex(<span class="keyword">int</span> rat = <span class="number">0</span>, <span class="keyword">int</span> irr = <span class="number">0</span>):rat(rat), irr(irr) &#123;&#125;;</span><br><span class="line">    <span class="function">Complex <span class="title">conj</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> Complex(rat, P-irr); &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> - (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span> &#123; <span class="keyword">return</span> Complex((rat-_.rat+P)%P, (irr-_.irr+P)%P); &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> + (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span> &#123; <span class="keyword">return</span> Complex((rat+_.rat)%P, (irr+_.irr)%P); &#125;   </span><br><span class="line">    Complex <span class="keyword">operator</span> * (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex ret; </span><br><span class="line">        ret.rat = (rat*_.rat%P+irr*_.irr%P*irr_base%P)%P;</span><br><span class="line">        ret.irr = (rat*_.irr%P+irr*_.rat%P)%P;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span> / (<span class="keyword">const</span> Complex &amp;_) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        Complex a = Complex(rat, irr)*_.conj(); Complex b = _*_.conj();</span><br><span class="line">        a = a*Complex(qpow(b.rat, P<span class="number">-2</span>), <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">Complex <span class="title">qpow</span><span class="params">(Complex a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Complex ret = Complex(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>( ; b; b &gt;&gt;= <span class="number">1</span>, a = a*a) <span class="keyword">if</span>(b&amp;<span class="number">1</span>) ret = ret*a;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line">Complex alpha, beta, x1, x2, fn;</span><br><span class="line">Complex sum1, sum2, sum3, ans;</span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;t);</span><br><span class="line">    <span class="keyword">while</span>(t--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld%lld%lld&quot;</span>, &amp;n, &amp;f1, &amp;f2, &amp;a, &amp;b);</span><br><span class="line">        irr_base = (a*a%P+<span class="number">4</span>*b%P)%P;</span><br><span class="line">        x1 = Complex(a, <span class="number">1</span>)/Complex(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">        x2 = Complex(a, P<span class="number">-1</span>)/Complex(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">        alpha = (Complex(f2, <span class="number">0</span>)-x2*Complex(f1, <span class="number">0</span>))/(x1-x2);</span><br><span class="line">        beta = (x1*Complex(f1, <span class="number">0</span>)-Complex(f2, <span class="number">0</span>))/(x1-x2);</span><br><span class="line">        fn = alpha*qpow(x1, n<span class="number">-1</span>)+beta*qpow(x2, n<span class="number">-1</span>);</span><br><span class="line">        sum1 = (qpow(x1*x1, n)-Complex(<span class="number">1</span>, <span class="number">0</span>))/(x1*x1-Complex(<span class="number">1</span>, <span class="number">0</span>))*alpha*alpha;</span><br><span class="line">        sum2 = (qpow(x2*x2, n)-Complex(<span class="number">1</span>, <span class="number">0</span>))/(x2*x2-Complex(<span class="number">1</span>, <span class="number">0</span>))*beta*beta;</span><br><span class="line">        sum3 = (qpow(x1*x2, n)-Complex(<span class="number">1</span>, <span class="number">0</span>))/(x1*x2-Complex(<span class="number">1</span>, <span class="number">0</span>))*beta*alpha*Complex(<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">        ans = sum1+sum2+sum3;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans.rat);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%80%92%E6%8E%A8/" rel="tag"># 递推</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/09/90509102-NOIP%E6%A8%A1%E6%8B%9F%E9%A2%98/" rel="prev" title="90509102 NOIP模拟题">
+      <i class="fa fa-chevron-left"></i> 90509102 NOIP模拟题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/05/11/FJOI2017-%E7%9F%A9%E9%98%B5%E5%A1%AB%E6%95%B0/" rel="next" title="[FJOI2017]矩阵填数">
+      [FJOI2017]矩阵填数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">2.1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E9%80%92%E6%8E%A8%E5%85%B3%E7%B3%BB"><span class="nav-number">2.1.1.</span> <span class="nav-text">线性常系数齐次递推关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">特征方程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%84%8F%E4%B9%89%E4%B8%8B%E7%9A%84%E6%A0%B9%E5%BC%8F%E8%BF%90%E7%AE%97"><span class="nav-number">2.1.3.</span> <span class="nav-text">模意义下的根式运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%BB%E4%BD%93"><span class="nav-number">2.2.</span> <span class="nav-text">题目主体</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CTime_Pup_314"
+      src="/images/avatar.ico">
+  <p class="site-author-name" itemprop="name">CTime_Pup_314</p>
+  <div class="site-description" itemprop="description">自闭</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://noone40404.github.io/" title="https:&#x2F;&#x2F;noone40404.github.io&#x2F;" rel="noopener" target="_blank">noone</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cnblogs.com/wmq12138" title="https:&#x2F;&#x2F;cnblogs.com&#x2F;wmq12138" rel="noopener" target="_blank">Robin12138</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wa-automaton.github.io/" title="https:&#x2F;&#x2F;wa-automaton.github.io&#x2F;" rel="noopener" target="_blank">_WA自动机</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.franky.pro/" title="http:&#x2F;&#x2F;www.franky.pro&#x2F;" rel="noopener" target="_blank">franky</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.org/blog/60150/" title="https:&#x2F;&#x2F;www.luogu.org&#x2F;blog&#x2F;60150&#x2F;" rel="noopener" target="_blank">Betelgeuse_</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://williampetermatthew.github.io/" title="https:&#x2F;&#x2F;williampetermatthew.github.io&#x2F;" rel="noopener" target="_blank">Peter_Matthew</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://micardi.coding.me/" title="https:&#x2F;&#x2F;micardi.coding.me" rel="noopener" target="_blank">Micardi</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://syr_steven.coding.me/" title="https:&#x2F;&#x2F;syr_steven.coding.me" rel="noopener" target="_blank">Steven7</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cs18.coding.me/" title="https:&#x2F;&#x2F;cs18.coding.me&#x2F;" rel="noopener" target="_blank">cs18</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/Bei-S/note/1381469" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;Bei-S&#x2F;note&#x2F;1381469" rel="noopener" target="_blank">Yue-S</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://pb0207.github.io/" title="https:&#x2F;&#x2F;pb0207.github.io&#x2F;" rel="noopener" target="_blank">pb0207</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/KirinBill/note/878927" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;KirinBill&#x2F;note&#x2F;878927" rel="noopener" target="_blank">KirinBill</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://fancypei.github.io/" title="https:&#x2F;&#x2F;fancypei.github.io&#x2F;" rel="noopener" target="_blank">Fancy</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CTime_Pup_314</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz","app_key":"VgY23VexkwMqCBv9Bf0v6Lvz","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz',
+      appKey     : 'VgY23VexkwMqCBv9Bf0v6Lvz',
+      placeholder: "有什么问题，欢迎留言指正与交流...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

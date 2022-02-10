@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ctp314.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="碎碎念 之前一直搞不清楚的有几个问题  坐标系和参考系有什么区别？ 更严谨和一般的参考系速度和加速度变换的推导？ 各个离心力的数学理解和主观理解？  坐标系与参考系的关系 由于初高中接触到的参考系变换都是来自于平动，所以对二者的关系理解不深。 引入相对转动后（更复杂的变换，一般是类似刚体运动，可以分解为平动和相对的复合），会出现理解上的困难。 经典力学中的参考系变换一般从伽利略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从来没搞清楚的参考系变换">
+<meta property="og:url" content="https://ctp314.github.io/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/index.html">
+<meta property="og:site_name" content="CTime_Pup_314">
+<meta property="og:description" content="碎碎念 之前一直搞不清楚的有几个问题  坐标系和参考系有什么区别？ 更严谨和一般的参考系速度和加速度变换的推导？ 各个离心力的数学理解和主观理解？  坐标系与参考系的关系 由于初高中接触到的参考系变换都是来自于平动，所以对二者的关系理解不深。 引入相对转动后（更复杂的变换，一般是类似刚体运动，可以分解为平动和相对的复合），会出现理解上的困难。 经典力学中的参考系变换一般从伽利略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-10T04:39:03.000Z">
+<meta property="article:modified_time" content="2022-02-10T06:04:08.352Z">
+<meta property="article:author" content="CTime_Pup_314">
+<meta property="article:tag" content="物理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ctp314.github.io/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从来没搞清楚的参考系变换 | CTime_Pup_314</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CTime_Pup_314</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不能再颓废了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ctp314.github.io/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.ico">
+      <meta itemprop="name" content="CTime_Pup_314">
+      <meta itemprop="description" content="自闭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CTime_Pup_314">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从来没搞清楚的参考系变换
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-02-10 12:39:03 / 修改时间：14:04:08" itemprop="dateCreated datePublished" datetime="2022-02-10T12:39:03+08:00">2022-02-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B8%8D%E6%98%8E%E7%99%BD%E7%9A%84%E4%B8%9C%E8%A5%BF/" itemprop="url" rel="index"><span itemprop="name">学不明白的东西</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/" class="post-meta-item leancloud_visitors" data-flag-title="从来没搞清楚的参考系变换" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="碎碎念">碎碎念</h3>
+<p>之前一直搞不清楚的有几个问题</p>
+<ul>
+<li>坐标系和参考系有什么区别？</li>
+<li>更严谨和一般的参考系速度和加速度变换的推导？</li>
+<li>各个离心力的数学理解和主观理解？</li>
+</ul>
+<h3 id="坐标系与参考系的关系">坐标系与参考系的关系</h3>
+<p>由于初高中接触到的参考系变换都是来自于<strong>平动</strong>，所以对二者的关系理解不深。
+引入<strong>相对转动</strong>后（更复杂的变换，一般是类似刚体运动，可以分解为平动和相对的复合），会出现理解上的困难。</p>
+<p>经典力学中的参考系变换一般从伽利略变换引入，但是由于只关注了其形式</p>
+<p><span class="math display">\[
+    (x&#39;,y&#39;,z&#39;,t&#39;)=(x+vt,y,z,t)
+\]</span> <a id="more"></a> 会造成对参考系径矢变换的一些细节上的忽视</p>
+<p><span class="math display">\[
+    \mathbf{r}_S=\mathbf{r}_{S&#39;}+\mathbf{r}_{SS&#39;}
+\]</span></p>
+<p>在运算时，必须放置在同一"坐标系"下，比如</p>
+<p><span class="math display">\[
+\begin{aligned}
+    (\mathbf{r}_S)_S&amp;=(\mathbf{r}_{S&#39;})_S+(\mathbf{r}_{SS&#39;})_{S}\\
+    (\mathbb{r}_S)_{S&#39;}&amp;=(\mathbf{r}_{S&#39;})_{S&#39;}+(\mathbf{r}_{SS&#39;})_{S&#39;}
+\end{aligned}
+\]</span></p>
+<p>其中的"同一'坐标系'"是一个很宽泛的理解，指我们需要细致的去考虑对这些物理量的测量方式，参考系变换可以从一些测量方式地变换推出（如
+<span class="math inline">\(\theta_{SS&#39;}=\theta_{S&#39;}+\theta_{SS&#39;}\)</span>），比如如果使用笛卡尔坐标系，那么它用来表征的三个单位向量
+<span class="math inline">\(S\)</span> 系中使用的 <span class="math inline">\(\mathbf{\hat{x}},\mathbf{\hat{y}},\mathbf{\hat{z}}\)</span>
+就不一定与 <span class="math inline">\(S&#39;\)</span> 系使用的 <span class="math inline">\(\mathbf{\hat{x&#39;}},\mathbf{\hat{y&#39;}},\mathbf{\hat{z&#39;}}\)</span>
+相同，或者比如极坐标的表征方式 <span class="math inline">\((r,\theta)\)</span> 也和 <span class="math inline">\((r&#39;,\theta&#39;)\)</span> 需要做区分。</p>
+<p>实际上在转动坐标系下的速度变换的 <span class="math inline">\(\mathbf{\omega}\times\mathbf{r}\)</span>
+以及加速度变换所带来的惯性力，即离心力和科里奥利力，都是来自于 <span class="math inline">\((\mathbf{v}_{S})_{S}\)</span> 和 <span class="math inline">\((\mathbf{v}_{S})_{S}\)</span>，<span class="math inline">\((\mathbf{a}_{S})_{S}\)</span> 和 <span class="math inline">\((\mathbf{a}_{S})_{S}\)</span> 的不同所带来的。</p>
+<h3 id="参考系速度变换推导">参考系速度变换推导</h3>
+<p>我们根据</p>
+<p><span class="math display">\[
+    \mathbf{r}_S=\mathbf{r}_{S&#39;}+\mathbf{r}_{SS&#39;}
+\]</span></p>
+<p>对两侧同时关于 <span class="math inline">\(t\)</span> 求导得</p>
+<p><span class="math display">\[
+    （\mathbf{v}_S)_S=\dfrac{\mathrm{d}}{\mathrm{d}t}(\mathbf{r}_{S&#39;})_S+(\mathbf{v}_{r})_S
+\]</span></p>
+<p>通过笛卡尔坐标，或者我们用一些基去表征 <span class="math inline">\(S\)</span> 和 <span class="math inline">\(S&#39;\)</span> 中的物理量，引入将 <span class="math inline">\(S&#39;\)</span> 的基变化成 <span class="math inline">\(S\)</span> 的基的矩阵 <span class="math inline">\(\mathbf{R}_{SS&#39;}\)</span>（结合大一上线代换基的知识可知，<span class="math inline">\(\mathbf{R}_{SS&#39;}=[\mathsf{I}]_{S&#39;}^{S}\)</span>，实际上就是在
+<span class="math inline">\(S\)</span> 中去观察 <span class="math inline">\(S&#39;\)</span> 中的情况，<del>之前总会搞成在
+<span class="math inline">\(S&#39;\)</span> 中去描述 <span class="math inline">\(S\)</span> 的转动</del>），简记为 <span class="math inline">\(\mathbf{R}\)</span>，我们有诸如下述的变化</p>
+<p><span class="math display">\[
+    (\mathbf{r}_{S&#39;})_S=\mathbf{R}(\mathbf{r}_{S&#39;})_{S&#39;},(\mathbf{v}_{S&#39;})_S=\mathbf{R}(\mathbf{v}_{S&#39;})_{S&#39;},(\mathbf{a}_{S&#39;})_S=\mathbf{R}(\mathbf{a}_{S&#39;})_{S&#39;}
+\]</span></p>
+<p>故</p>
+<p><span class="math display">\[
+\begin{aligned}
+    （\mathbf{v}_S)_S&amp;=\mathbf{R}(\mathbf{v}_{S&#39;})_{S&#39;}+\dot{\mathbf{R}}(\mathbf{r}_{S&#39;})_{S&#39;}+(\mathbf{v}_{r})_S\\
+    &amp;=(\mathbf{v}_{S&#39;})_S+\mathbf{\Omega}_{SS&#39;}(\mathbf{r}_{S&#39;})_{S}+(\mathbf{v}_{r})_S\\
+    &amp;=(\mathbf{v}_{S&#39;})_S+(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_{S&#39;})_{S}+(\mathbf{v}_{SS&#39;})_S\\
+\end{aligned}
+\]</span></p>
+<p>（中间 <span class="math inline">\(\dot{\mathbf{R}}=\mathbf{\Omega
+R}\)</span> 实际上是类似 <span class="math inline">\([\dot{\mathbf{R}}]_S=[\mathbf{\Omega
+R}]_S=[\mathbf{\Omega}]_S[\mathbf{I}]_{S&#39;}^{S}\)</span>，这里有疑问就是这样的推导能否适用于广泛的三维旋转，感觉没有问题？）</p>
+<p>我们将式子整理为</p>
+<p><span class="math display">\[
+\mathbf{v}_S=\mathbf{v}_{S&#39;}+\mathbf{v}_r=\mathbf{v}_{S&#39;}+(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_{S&#39;}+\mathbf{v}_{SS&#39;})
+\]</span></p>
+<p>或者我们可以使用极坐标系进行类似推导二维平面的情况（三维可以使用球坐标系或圆柱坐标系）</p>
+<p><span class="math display">\[
+\begin{aligned}
+    （\mathbf{v}_S)_S&amp;=\dfrac{\mathrm{d}}{\mathrm{d}t}((r_{S&#39;})_S\hat{\mathbf{r}}(\theta_S))+(\mathbf{v}_{r})_S\\
+    &amp;=(v_{S&#39;})_S\hat{\mathbf{r}}(\theta_S)+(r_{S&#39;})_S\dfrac{\mathrm{d}}{\mathrm{d}\theta_{S}}\hat{\mathbf{r}}(\theta_{S})\dfrac{\mathrm{d}}{\mathrm{d}t}\theta_{S}+(\mathbf{v}_{r})_S\\
+    &amp;=(v_{S&#39;})_S\hat{\mathbf{r}}(\theta_S)+(r_{S&#39;})_S\hat{\mathbf{\theta}}(\theta_{S})(\omega_{SS&#39;}+\omega_{S&#39;})+(\mathbf{v}_{r})_S\\
+    &amp;=(\mathbf{v}_{S&#39;})_S+(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_{S&#39;})_{S}+(\mathbf{v}_{SS&#39;})_S\\
+\end{aligned}
+\]</span></p>
+<p>可以得出一致的结果（不过其中还需要保证测量标量 <span class="math inline">\(r\)</span> 时，用的"刻度"是一致的）</p>
+<h3 id="参考系加速度变换与惯性力">参考系加速度变换与惯性力</h3>
+<p>根据</p>
+<p><span class="math display">\[
+\mathbf{v}_S=\mathbf{v}_{S&#39;}+\mathbf{v}_r=\mathbf{v}_{S&#39;}+(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_{S&#39;}+\mathbf{v}_{SS&#39;})
+\]</span></p>
+<p>两侧关于时间 <span class="math inline">\(t\)</span> 求导可知</p>
+<p><span class="math display">\[
+    (\mathbf{a}_S)_S=\dfrac{\mathrm{d}}{\mathrm{d}t}(\mathbf{v}_{S&#39;})_S+(\dot{\pmb{\omega}}_{SS&#39;})_S\times(\mathbf{r}_{S&#39;})_S+(\pmb{\omega}_{SS&#39;})_S\times((\mathbf{v}_{S&#39;})_S+(\pmb{\omega}_{SS&#39;})_S\times(\mathbf{r}_{S&#39;})_S)+(\mathbf{a}_{SS&#39;})_S
+\]</span></p>
+<p>利用旋转矩阵</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \dfrac{\mathrm{d}}{\mathrm{d}t}(\mathbf{v}_{S&#39;})_S&amp;=(\mathbf{a}_{S&#39;})_S+\dot{\mathbf{R}}(\mathbf{v}_{S&#39;})_{S&#39;}\\
+    &amp;=(\mathbf{a}_{S&#39;})_S+\mathbf{\Omega}(\mathbf{v}_{S&#39;})_{S}\\
+    &amp;=(\mathbf{a}_{S&#39;})_S+(\pmb{\omega}_{SS&#39;})_S\times(\mathbf{v}_{S&#39;})_S
+\end{aligned}
+\]</span></p>
+<p>整理得</p>
+<p><span class="math display">\[
+    \mathbf{a}_S=\mathbf{a}_{S&#39;}+\mathbf{a}_{SS&#39;}+\dot{\pmb{\omega}}_{SS&#39;}\times\mathbf{r}_{S&#39;}+\pmb{\omega}_{SS&#39;}\times(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_S)+2\pmb{\omega}_{SS&#39;}\times\mathbf{v}_{S&#39;}
+\]</span></p>
+<p>惯性力本质上就是 <span class="math inline">\(S\)</span>
+系是一个惯性系，在对 <span class="math inline">\(S&#39;\)</span>
+系进行研究时，由于需要保证惯性定律成立，引入惯性力 <span class="math inline">\(\mathbf{f}_{S&#39;S}\)</span>（简记为 <span class="math inline">\(\mathbf{f}\)</span>）（极端地想，在刚开始移动的车上有一个小球，在地面参考系
+<span class="math inline">\(S\)</span> 中，车以 <span class="math inline">\(\mathbf{a}\)</span> 加速，而球静止，真实力为 <span class="math inline">\(\mathbf{0}\)</span>，在车参考系 <span class="math inline">\(S&#39;\)</span> 中，小球以 <span class="math inline">\(-\mathbf{a}\)</span>
+减速，然而却找不施力物体，所以是 <span class="math inline">\(S&#39;\)</span> 相对于 <span class="math inline">\(S\)</span> 系移动造成的，引入惯性力 <span class="math inline">\(\mathbf{f}=-m\mathbf{a}\)</span>，同理，在一个旋转的圆盘上有一个小球，当小球与圆盘<strong>相对静止</strong>时，在
+<span class="math inline">\(S\)</span>
+系中的观测到的是小球做圆周运动，存在向心力，在视角跟着圆盘一起旋转的
+<span class="math inline">\(S&#39;\)</span>
+系，小球静止不动，但是我们却可以观测到施加了向心力的物体，比如圆盘摩擦产生的热，圆盘支持力的形变等，这一部分同也是
+<span class="math inline">\(S&#39;\)</span> 相当于 <span class="math inline">\(S\)</span>
+系造成的，引入了离心力，同样的场景，考虑刚开始旋转时小球在 <span class="math inline">\(S\)</span> 系中静止，<span class="math inline">\(S&#39;\)</span>
+系中做圆周运动，这时根据前文，小球首先受到了离心力，但是小球产生离心的运动状态，所以收到了另一种惯性力——科里奥利力，在这种情况下二倍且反方向于离心力，而且若
+<span class="math inline">\(S&#39;\)</span> 对于 <span class="math inline">\(S\)</span> 是逆时针旋转，那么 <span class="math inline">\(S’\)</span>
+中观测到小球就是顺时针，这个变换同样可以从科里奥利力中得出） 有</p>
+<p><span class="math display">\[
+m\mathbf{a}_{S&#39;}=\mathbf{f}_{S&#39;S}+m\mathbf{a}_S
+\]</span></p>
+<p>其中 <span class="math inline">\(-2\pmb{\omega}_{SS&#39;}\times\mathbf{v}_{S&#39;}=2\mathbf{v}_{S&#39;}\times\pmb{\omega}_{SS&#39;}\)</span>
+便是科里奥利加速度，<span class="math inline">\(-\pmb{\omega}_{SS&#39;}\times(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_S)\)</span>
+便是离心加速度。</p>
+<p>叉乘是不满足结合律的，但是有</p>
+<p><span class="math display">\[
+    \mathbf{a}\times(\mathbf{b}\times\mathbf{c})=(\mathbf{a}\cdot
+\mathbf{c})\mathbf{b}-(\mathbf{a}\cdot \mathbf{b})\mathbf{c}
+\]</span></p>
+<p>我们可以得到另一个式子</p>
+<p><span class="math display">\[
+    \mathbf{a}_S=\mathbf{a}_{S&#39;}+\mathbf{a}_{SS&#39;}+\dot{\pmb{\omega}}_{SS&#39;}\times\mathbf{r}_{S&#39;}+(\pmb{\omega}_{SS&#39;}\cdot\mathbf{r}_S)\pmb{\omega}_{SS&#39;}-\omega_{SS&#39;}^2\mathbf{r}_S+2\pmb{\omega}_{SS&#39;}\times\mathbf{v}_{S&#39;}
+\]</span></p>
+<p>当 <span class="math inline">\(\pmb\omega\perp\mathbf{r}_{S&#39;}\)</span>
+时，其中 <span class="math inline">\(\omega_{SS&#39;}^2\mathbf{r}_S\)</span>
+便是离心加速度的一种为人熟知的情形。</p>
+<p>我们同理可以用极坐标推导二维的情况（这种方法推导一般的情况远没有上述方法容易，方面起见，我们将
+<span class="math inline">\(\theta_{S&#39;}=0\)</span>，即 <span class="math inline">\(S&#39;\)</span> 系中与研究对象没有相对转动）</p>
+<p><span class="math display">\[
+\begin{aligned}
+    （\mathbf{a}_{S&#39;})_S&amp;=\dfrac{\mathrm{d^2}}{\mathrm{d}t^2}((r_{S&#39;})_S\hat{\mathbf{r}}(\theta_S))\\
+    &amp;=(\ddot{r}_{S&#39;})_S\hat{\mathbf{r}}(\theta_S)+2(\dot
+r_{S&#39;})_S\dfrac{\mathrm{d}}{\mathrm{d}t}\hat{\mathbf{r}}(\theta_S)+(r_{S&#39;})_S\dfrac{\mathrm{d^2}}{\mathrm{d}t^2}\hat{\mathbf{r}}(\theta_S)\\
+    &amp;=(\ddot{r}_{S&#39;})_S\hat{\mathbf{r}}(\theta_S)+2(v_{S&#39;})_S\hat{\pmb{\theta}}(\theta_S)(\omega_{SS&#39;})_S+(r_{S&#39;})_S\hat{\pmb{\theta}}(\theta_S)(\dot\omega_{SS&#39;})_S-(r_{S&#39;})_S(\hat{\mathbf{r}}(\theta_S)(\omega_{SS&#39;})_S^2\\
+    &amp;=\mathbf{a}_{S&#39;}+\dot{\pmb{\omega}}_{SS&#39;}\times\mathbf{r}_{S&#39;}+\pmb{\omega}_{SS&#39;}\times(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_S)+2\pmb{\omega}_{SS&#39;}\times\mathbf{v}_{S&#39;}
+\end{aligned}
+\]</span></p>
+<p>（二维情况下，<span class="math inline">\(\pmb\omega\perp\mathbf{r}\)</span>）</p>
+<h3 id="参考资料">参考资料</h3>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.ahmu.cf/wiki/%E5%9D%90%E6%A8%99%E7%B3%BB">https://zh.wikipedia.ahmu.cf/wiki/%E5%9D%90%E6%A8%99%E7%B3%BB</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.ahmu.cf/wiki/%E4%BC%BD%E5%88%A9%E7%95%A5%E5%8F%98%E6%8D%A2">https://zh.wikipedia.ahmu.cf/wiki/%E4%BC%BD%E5%88%A9%E7%95%A5%E5%8F%98%E6%8D%A2</a></p>
+<p><a target="_blank" rel="noopener" href="https://wuli.wiki/online/Vtrans.html">https://wuli.wiki/online/Vtrans.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://wuli.wiki/online/Iner.html">https://wuli.wiki/online/Iner.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%89%A9%E7%90%86/" rel="tag"># 物理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/24/%E5%85%B3%E4%BA%8E%E4%B8%80%E7%B1%BB%E5%AE%B9%E6%96%A5%E7%9A%84%E6%80%9D%E8%80%83/" rel="prev" title="关于一类容斥的思考">
+      <i class="fa fa-chevron-left"></i> 关于一类容斥的思考
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">碎碎念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E4%B8%8E%E5%8F%82%E8%80%83%E7%B3%BB%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">坐标系与参考系的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E7%B3%BB%E9%80%9F%E5%BA%A6%E5%8F%98%E6%8D%A2%E6%8E%A8%E5%AF%BC"><span class="nav-number">3.</span> <span class="nav-text">参考系速度变换推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E7%B3%BB%E5%8A%A0%E9%80%9F%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E6%83%AF%E6%80%A7%E5%8A%9B"><span class="nav-number">4.</span> <span class="nav-text">参考系加速度变换与惯性力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CTime_Pup_314"
+      src="/images/avatar.ico">
+  <p class="site-author-name" itemprop="name">CTime_Pup_314</p>
+  <div class="site-description" itemprop="description">自闭</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://noone40404.github.io/" title="https:&#x2F;&#x2F;noone40404.github.io&#x2F;" rel="noopener" target="_blank">noone</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cnblogs.com/wmq12138" title="https:&#x2F;&#x2F;cnblogs.com&#x2F;wmq12138" rel="noopener" target="_blank">Robin12138</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wa-automaton.github.io/" title="https:&#x2F;&#x2F;wa-automaton.github.io&#x2F;" rel="noopener" target="_blank">_WA自动机</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.franky.pro/" title="http:&#x2F;&#x2F;www.franky.pro&#x2F;" rel="noopener" target="_blank">franky</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.org/blog/60150/" title="https:&#x2F;&#x2F;www.luogu.org&#x2F;blog&#x2F;60150&#x2F;" rel="noopener" target="_blank">Betelgeuse_</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://williampetermatthew.github.io/" title="https:&#x2F;&#x2F;williampetermatthew.github.io&#x2F;" rel="noopener" target="_blank">Peter_Matthew</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://micardi.coding.me/" title="https:&#x2F;&#x2F;micardi.coding.me" rel="noopener" target="_blank">Micardi</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://syr_steven.coding.me/" title="https:&#x2F;&#x2F;syr_steven.coding.me" rel="noopener" target="_blank">Steven7</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cs18.coding.me/" title="https:&#x2F;&#x2F;cs18.coding.me&#x2F;" rel="noopener" target="_blank">cs18</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/Bei-S/note/1381469" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;Bei-S&#x2F;note&#x2F;1381469" rel="noopener" target="_blank">Yue-S</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://pb0207.github.io/" title="https:&#x2F;&#x2F;pb0207.github.io&#x2F;" rel="noopener" target="_blank">pb0207</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zybuluo.com/KirinBill/note/878927" title="https:&#x2F;&#x2F;www.zybuluo.com&#x2F;KirinBill&#x2F;note&#x2F;878927" rel="noopener" target="_blank">KirinBill</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://fancypei.github.io/" title="https:&#x2F;&#x2F;fancypei.github.io&#x2F;" rel="noopener" target="_blank">Fancy</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CTime_Pup_314</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz","app_key":"VgY23VexkwMqCBv9Bf0v6Lvz","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qmNUGazaejobxvy3jwdpRNkd-gzGzoHsz',
+      appKey     : 'VgY23VexkwMqCBv9Bf0v6Lvz',
+      placeholder: "有什么问题，欢迎留言指正与交流...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

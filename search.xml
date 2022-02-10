@@ -3,14 +3,14 @@
   <entry>
     <title>从来没搞清楚的参考系变换</title>
     <url>/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/</url>
-    <content><![CDATA[<h3 id="碎碎念">碎碎念</h3>
+    <content><![CDATA[<h2 id="碎碎念">碎碎念</h2>
 <p>之前一直搞不清楚的有几个问题</p>
 <ul>
 <li>坐标系和参考系有什么区别？</li>
 <li>更严谨和一般的参考系速度和加速度变换的推导？</li>
 <li>各个离心力的数学理解和主观理解？</li>
 </ul>
-<h3 id="坐标系与参考系的关系">坐标系与参考系的关系</h3>
+<h2 id="坐标系与参考系的关系">坐标系与参考系的关系</h2>
 <p>由于初高中接触到的参考系变换都是来自于<strong>平动</strong>，所以对二者的关系理解不深。
 引入<strong>相对转动</strong>后（更复杂的变换，一般是类似刚体运动，可以分解为平动和相对的复合），会出现理解上的困难。</p>
 <p>经典力学中的参考系变换一般从伽利略变换引入，但是由于只关注了其形式</p>
@@ -34,7 +34,7 @@
 相同，或者比如极坐标的表征方式 <span class="math inline">\((r,\theta)\)</span> 也和 <span class="math inline">\((r&#39;,\theta&#39;)\)</span> 需要做区分。</p>
 <p>实际上在转动坐标系下的速度变换的 <span class="math inline">\(\mathbf{\omega}\times\mathbf{r}\)</span>
 以及加速度变换所带来的惯性力，即离心力和科里奥利力，都是来自于 <span class="math inline">\((\mathbf{v}_{S})_{S}\)</span> 和 <span class="math inline">\((\mathbf{v}_{S})_{S}\)</span>，<span class="math inline">\((\mathbf{a}_{S})_{S}\)</span> 和 <span class="math inline">\((\mathbf{a}_{S})_{S}\)</span> 的不同所带来的。</p>
-<h3 id="参考系速度变换推导">参考系速度变换推导</h3>
+<h2 id="参考系速度变换推导">参考系速度变换推导</h2>
 <p>我们根据</p>
 <p><span class="math display">\[
     \mathbf{r}_S=\mathbf{r}_{S&#39;}+\mathbf{r}_{SS&#39;}
@@ -74,7 +74,7 @@ R}]_S=[\mathbf{\Omega}]_S[\mathbf{I}]_{S&#39;}^{S}\)</span>，这里有疑问就
 \end{aligned}
 \]</span></p>
 <p>可以得出一致的结果（不过其中还需要保证测量标量 <span class="math inline">\(r\)</span> 时，用的"刻度"是一致的）</p>
-<h3 id="参考系加速度变换与惯性力">参考系加速度变换与惯性力</h3>
+<h2 id="参考系加速度变换与惯性力">参考系加速度变换与惯性力</h2>
 <p>根据</p>
 <p><span class="math display">\[
 \mathbf{v}_S=\mathbf{v}_{S&#39;}+\mathbf{v}_r=\mathbf{v}_{S&#39;}+(\pmb{\omega}_{SS&#39;}\times\mathbf{r}_{S&#39;}+\mathbf{v}_{SS&#39;})
@@ -139,7 +139,7 @@ r_{S&#39;})_S\dfrac{\mathrm{d}}{\mathrm{d}t}\hat{\mathbf{r}}(\theta_S)+(r_{S&#39
 \end{aligned}
 \]</span></p>
 <p>（二维情况下，<span class="math inline">\(\pmb\omega\perp\mathbf{r}\)</span>）</p>
-<h3 id="参考资料">参考资料</h3>
+<h2 id="参考资料">参考资料</h2>
 <p><a href="https://zh.wikipedia.ahmu.cf/wiki/%E5%9D%90%E6%A8%99%E7%B3%BB">https://zh.wikipedia.ahmu.cf/wiki/%E5%9D%90%E6%A8%99%E7%B3%BB</a></p>
 <p><a href="https://zh.wikipedia.ahmu.cf/wiki/%E4%BC%BD%E5%88%A9%E7%95%A5%E5%8F%98%E6%8D%A2">https://zh.wikipedia.ahmu.cf/wiki/%E4%BC%BD%E5%88%A9%E7%95%A5%E5%8F%98%E6%8D%A2</a></p>
 <p><a href="https://wuli.wiki/online/Vtrans.html">https://wuli.wiki/online/Vtrans.html</a></p>

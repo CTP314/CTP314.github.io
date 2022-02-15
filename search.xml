@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>配置 Python 中的问题</title>
+    <url>/2022/02/15/%E9%85%8D%E7%BD%AE-Python-%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="碎碎念">碎碎念</h2>
+<p>今天心血来潮想下一个 Manim，结果电脑上的 Python3.7
+不行了，索性就直接删掉换成 Anaconda 了，方便之后做版本管理。</p>
+<h2 id="anaconda">Anaconda</h2>
+<h3 id="anaconda-激活新建环境后没有效果">Anaconda
+激活新建环境后没有效果</h3>
+<p>使用指令 <code>conda create -n envname</code> 需要指定 Python，改为
+<code>conda create -n envname Python=3.x</code>。</p>
+<h3 id="anaconda-更新时报错-invalidarchiveerror">Anaconda 更新时报错
+<code>InvalidArchiveError</code></h3>
+<p>提高 Anaconda 源文件的权限。</p>
+<h2 id="vs-code">VS Code</h2>
+<h3 id="切换解释器没有效果">切换解释器没有效果</h3>
+<p>注意到使用 Python Environment Manager
+插件时会新建终端，但是编译时的终端是旧的，目前的解决方法是手动删掉旧的终端。</p>
+<h2 id="manim">Manim</h2>
+<h3 id="tex-file-不存在">Tex File 不存在</h3>
+<p>经典问题，是由于 LaTex
+编译过程中不允许特殊字符路径，这次比较容易解决，可以参考 <a href="https://github.com/3b1b/manim/issues/1414">#1414</a>。</p>
+]]></content>
+      <categories>
+        <category>软件设置</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从来没搞清楚的参考系变换</title>
     <url>/2022/02/10/%E4%BB%8E%E6%9D%A5%E6%B2%A1%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%8F%82%E8%80%83%E7%B3%BB%E5%8F%98%E6%8D%A2/</url>
     <content><![CDATA[<h2 id="碎碎念">碎碎念</h2>

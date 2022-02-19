@@ -1,12 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>关于质点唯一性的讨论</title>
+    <url>/2022/02/19/%E5%85%B3%E4%BA%8E%E8%B4%A8%E7%82%B9%E5%94%AF%E4%B8%80%E6%80%A7%E7%9A%84%E8%AE%A8%E8%AE%BA/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>质点通常被定义为位置在</p>
+<p><span class="math display">\[
+\mathbf{r}_C=\dfrac{1}{m_C}\sum_{i} m_i\mathbf{r}_i
+\]</span></p>
+<p>质量为</p>
+<p><span class="math display">\[
+m_C=\sum_{i}m_i
+\]</span></p>
+<p>的点，通过对这个点的研究我们可以忽略系统内力作用，只研究合外力对系统的影响，通过对
+<span class="math inline">\(\mathbf{r}_C\)</span> 和 <span class="math inline">\(m_C\)</span> 的分析，质点 <span class="math inline">\(C\)</span> 的满足我们的需要。但是反过来，正如
+《力学（舒幼生）》中所言 &gt; 刚体中是否存在一个点部位 <span class="math inline">\(C\)</span>，它的运动与内力无关，而是由运动的初始状态和外力所确定？</p>
+<p>所以，我们是否有更加直接的方式推导出这一结果，并且说明它的唯一性呢？</p>
+<h2 id="通过动量定理的推导">通过动量定理的推导</h2>
+<p>考虑系统的合外力需要满足</p>
+<p><span class="math display">\[
+    \mathbf{F}_{\text{tot}}^{\text{out}}=\sum_{i}\mathbf{F}_i=\sum_{i}\dfrac{\mathrm{d}}{\mathrm
+d t}(m_i\mathbf{v}_i)=\dfrac{\mathrm{d}}{\mathrm d t}(m_C\mathbf{v}_C)
+\]</span></p>
+<p>将符合直觉的 <span class="math inline">\(m_C=\sum m_i\)</span>
+代入并整理得</p>
+<p><span class="math display">\[
+    \dfrac{\mathrm{d}}{\mathrm d
+t}\sum_im_i(\mathbf{v}_C-\mathbf{v}_i)=0
+\]</span></p>
+<p>我们可以得出通解为</p>
+<p><span class="math display">\[
+\sum_i m_i(\mathbf{v}_C-\mathbf{v}_i)=\mathbf{p}_{\text{constant}}
+\]</span></p>
+<p>实际上隐含了惯性系对牛顿定律的要求，我们取一个惯性系令右侧为 <span class="math inline">\(0\)</span> 则</p>
+<p><span class="math display">\[
+\sum_i m_i\dfrac{\mathrm{d}}{\mathrm{d} t}(\mathbf{r}_C-\mathbf{r}_i)=0
+\]</span></p>
+<p>有通解</p>
+<p><span class="math display">\[
+\sum_i m_i(\mathbf{r}_C-\mathbf{r}_i)=\mathbf{r}_{\text{constant}}
+\]</span></p>
+<p>相对静止先前选择的惯性系静止的惯性系 <span class="math inline">\(\mathbf{p}_{\text{constant}}\)</span>
+一致，故可以令</p>
+<p><span class="math display">\[
+\sum_i m_i(\mathbf{r}_C-\mathbf{r}_i)=0
+\]</span></p>
+<p>这样就推出了我们所需要的质点，从这个结果逆推，我们可以得出质点的唯一性。</p>
+]]></content>
+      <categories>
+        <category>研究</category>
+      </categories>
+      <tags>
+        <tag>物理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>配置 Python 中的问题</title>
     <url>/2022/02/15/%E9%85%8D%E7%BD%AE-Python-%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2 id="碎碎念">碎碎念</h2>
 <p>今天心血来潮想下一个 Manim，结果电脑上的 Python3.7
-不行了，索性就直接删掉换成 Anaconda 了，方便之后做版本管理。</p>
-<h2 id="anaconda">Anaconda</h2>
+不行了，索性就直接删掉换成 Anaconda 了，方便之后做版本管理。
+<a id="more"></a> ## Anaconda</p>
 <h3 id="anaconda-激活新建环境后没有效果">Anaconda
 激活新建环境后没有效果</h3>
 <p>使用指令 <code>conda create -n envname</code> 需要指定 Python，改为
